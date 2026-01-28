@@ -1,26 +1,31 @@
-const users = require('../data/users');
-const orders = require('../data/orders');
+const { users } = require('../data/users');
+const { orders, generateOrderId } = require('../data/orders');
 
 const createOrder = (req, res) => {
+    console.log('users:', users);
+    console.log('orders:', orders);
   try {
     const { id_usuario, description, total, state } = req.body;
 
     if (!id_usuario || !description || !total) {
       return res.status(400).json({ message: 'Datos incompletos' });
     }
-
+    //se valida un total positivo
+    if (typeof total !== 'number' || total <= 0) {
+      return res.status(400).json({ message: 'El total debe ser un número positivo' });
+    }
     const userExists = users.find(u => u.id == id_usuario);
     if (!userExists) {
       return res.status(404).json({ message: 'Usuario no existe' });
-    }//erifica que el usuario exista🔹 Evita pedidos huérfanos--Mantengo integridad de datos.
+    }
 
     const newOrder = {
-      id: orders.length + 1,
+      id: generateOrderId(),
       id_usuario,
       description,
       total,
       order_date: new Date(),
-      state: state || 'pendiente'//i no llega estado → asigna pendiente🔹 Usa operador OR (||)
+      state: state || 'pendiente'
     };
 
     orders.push(newOrder);

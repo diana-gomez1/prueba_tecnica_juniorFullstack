@@ -1,6 +1,11 @@
-const orders = [];
+let orders = [];
+let orderId = 1;
 
-module.exports = orders;
-/*Es un arreglo vacío
-🔹 Se comparte entre controladores
-🔹 Simula una tabla orders*/    
+const generateOrderId = () => orderId++;
+
+module.exports = {
+  orders,
+  generateOrderId
+};
+
+  

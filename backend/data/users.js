@@ -1,10 +1,12 @@
-const users = [];
 
-module.exports = users;
-/*Es un arreglo vacío
-🔹 Se comparte entre controladores
-🔹 Simula una tabla users
+let users = [];
+let userId = 1;
 
-💬 Cómo explicarlo:
+const generateUserId = () => userId++;
 
-Exporto el arreglo para que sea compartido por toda la aplicación./*/
+module.exports = {
+  users,
+  generateUserId
+};
+
+
