@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pedidos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Gestión de Pedidos</h1>
+
+    <!-- Formulario -->
+    <form id="orderForm" class="card">
+      <h2>Crear Pedido</h2>
+
+      <div class="form-group">
+        <label for="id_usuario">Id Usuario</label>
+        <input type="number" id="id_usuario" placeholder="Ingresa el id del usuario" min="1" required>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descripción</label>
+        <input type="text" id="description" placeholder="Ingresa la descripción" required>
+      </div>
+
+      <div class="form-group">
+        <label for="total">Total</label>
+        <input type="number" id="total" placeholder="Ingresa el total" min="0" step="0.01" required>
+      </div>
+
+      <button type="submit" class="btn full">Crear Pedido</button>
+    </form>
+
+    <!-- Lista de pedidos -->
+    <h2>Pedidos Registrados</h2>
+    <ul id="ordersList"></ul>
+
+    <br>
+    <a href="index.html" class="btn">Volver</a>
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost:3000/api';
+    let editingOrderId = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadOrders();
+
+      const orderForm = document.getElementById('orderForm');
+      orderForm.addEventListener('submit', submitOrderForm);
+    });
+
+    // Crear o actualizar pedido
+    async function submitOrderForm(event) {
+      event.preventDefault();
+
+      const id_usuario = parseInt(document.getElementById('id_usuario').value);
+      const description = document.getElementById('description').value.trim();
+      const total = parseFloat(document.getElementById('total').value);
+
+      // Validaciones básicas
+      if (isNaN(id_usuario) || id_usuario <= 0) {
+        alert('El Id del usuario debe ser un número positivo');
+        return;
+      }
+
+      if (!description) {
+        alert('La descripción no puede estar vacía');
+        return;
+      }
+
+      if (isNaN(total) || total < 0) {
+        alert('El total debe ser un número positivo');
+        return;
+      }
+
+      try {
+        let response;
+        if (editingOrderId) {
+          response = await fetch(`${API_URL}/orders/${editingOrderId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id_usuario, description, total })
+          });
+        } else {
+          response = await fetch(`${API_URL}/orders`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id_usuario, description, total })
+          });
+        }
+
+        const data = await response.json();
+        if (!response.ok) {
+          alert(data.message);
+          return;
+        }
+
+        document.getElementById('orderForm').reset();
+        editingOrderId = null;
+        loadOrders();
+      } catch (error) {
+        alert('Error al enviar pedido');
+        console.error(error);
+      }
+    }
+
+    // Cargar pedidos
+    async function loadOrders() {
+      try {
+        const response = await fetch(`${API_URL}/orders`);
+        const orders = await response.json();
+
+        const list = document.getElementById('ordersList');
+        list.innerHTML = '';
+
+        orders.forEach(order => {
+          const li = document.createElement('li');
+          li.textContent = `Usuario: ${order.id_usuario} | ${order.description} | Total: $${order.total.toFixed(2)}`;
+
+          // Botón eliminar
+          const deleteBtn = document.createElement('button');
+          deleteBtn.textContent = 'Eliminar';
+          deleteBtn.classList.add('btn-small', 'delete-btn');
+          deleteBtn.addEventListener('click', () => deleteOrder(order.id));
+
+          // Botón actualizar
+          const updateBtn = document.createElement('button');
+          updateBtn.textContent = 'Actualizar';
+          updateBtn.classList.add('btn-small', 'update-btn');
+          updateBtn.addEventListener('click', () => fillOrderFormForUpdate(order));
+
+          li.appendChild(deleteBtn);
+          li.appendChild(updateBtn);
+          list.appendChild(li);
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    // Eliminar pedido
+    async function deleteOrder(id) {
+      if (!confirm('¿Eliminar este pedido?')) return;
+
+      try {
+        await fetch(`${API_URL}/orders/${id}`, { method: 'DELETE' });
+        loadOrders();
+      } catch (error) {
+        alert('Error al eliminar pedido');
+      }
+    }
+
+    // Llenar formulario para actualizar
+    function fillOrderFormForUpdate(order) {
+      document.getElementById('id_usuario').value = order.id_usuario;
+      document.getElementById('description').value = order.description;
+      document.getElementById('total').value = order.total;
+
+      editingOrderId = order.id;
+    }
+  </script>
+</body>
+</html>

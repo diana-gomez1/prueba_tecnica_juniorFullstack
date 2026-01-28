@@ -1,0 +1,193 @@
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Fondo general */
+body {
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+/* Contenedor principal */
+.container {
+  max-width: 800px;
+  margin: 80px auto;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Títulos */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+/* Texto descriptivo */
+.description {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 16px;
+  color: #555;
+}
+
+/* Botones generales */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn {
+  text-decoration: none;
+  padding: 12px 25px;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #2980b9;
+}
+
+/* Footer */
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 14px;
+  color: #888;
+}
+
+/* Card  */
+.card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+}
+
+/* Títulos dentro de card */
+.card h2 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+  text-align: center;
+}
+
+/* Grupos de formulario */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+/* Inputs  */
+.form-group input {
+  padding: 12px 14px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  transition: all 0.3s ease;
+}
+
+/* Efecto  */
+.form-group input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+/* Botón ancho del formulario */
+.btn.full {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+}
+
+/* Botones pequeños */
+.btn-small {
+  padding: 6px 12px;       
+  font-size: 13px;         
+  border-radius: 6px;      
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-small:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+/*boton de eliminar*/
+.delete-btn {
+  background-color: #e74c3c; 
+  color: #fff;
+  margin-right: 10px; 
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+/*boton de eliminar*/
+
+.update-btn {
+  background-color: #3498db; 
+  color: #fff;
+}
+
+.update-btn:hover {
+  background-color: #2980b9;
+}
+
+
+.back-btn {
+  background-color: #7f8c8d;
+  color: #fff;
+}
+
+.back-btn:hover {
+  background-color: #606c70;
+}
+
+/* Lista de usuarios */
+#usersList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; 
+}
+
+#usersList li {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#usersList li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+}
