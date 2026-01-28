@@ -4,7 +4,7 @@ const router = express.Router();
 const ordersController = require('../controllers/orders_controller');
 // Crear pedido
 router.post('/', ordersController.createOrder);
-// Listar pedidos (se puede filtrar por id_usuario )
+// Listar pedidos 
 router.get('/', ordersController.getOrders);
 // Actualizar pedido
 router.put('/:id', ordersController.updateOrder);
